@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather Dashboard – Open-Meteo</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Apache ECharts replaces Chart.js for a more modern and interactive visualization. -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+
+    <style>
+      /* I wanted a cleaner and more modern weather dashboard. */
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #eef5f9;
+        color: #243b53;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+
+      h1 {
+        color: #145b91;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        margin-bottom: 30px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border: 1px solid #dce5ed;
+        text-align: left;
+      }
+
+      th {
+        background: #145b91;
+        color: white;
+      }
+
+      input,
+      select,
+      button {
+        padding: 10px;
+        margin: 8px 5px;
+        border-radius: 6px;
+        border: 1px solid #bccbd8;
+        font-size: 15px;
+      }
+
+      button {
+        background: #168aad;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #126782;
+      }
+
+      #tempChart {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        box-sizing: border-box;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        margin-top: 20px;
+      }
+
+      #saaYllatys {
+        color: #168aad;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Workshop 9: JavaScript libraries</h1>
+    <p>
+      External libraries make it easy to add many kinds of functionality to
+      JavaScript applications. There are thousands of libraries, and their
+      possibilities are limited only by your imagination. Here are a few fun
+      libraries to try:
+    </p>
+
+    <table border="1" cellspacing="0" cellpadding="8">
+      <thead>
+        <tr>
+          <th>Library</th>
+          <th>Link</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Baffle.js</strong></td>
+          <td>
+            <a href="https://camwiegert.github.io/baffle/" target="_blank"
+              >https://camwiegert.github.io/baffle/</a
+            >
+          </td>
+          <td>
+            A text-effect library that animates text as it is obscured and
+            revealed. Great for eye-catching headings and presentation pages.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Vanta.js</strong></td>
+          <td>
+            <a href="https://www.vantajs.com/" target="_blank"
+              >https://www.vantajs.com/</a
+            >
+          </td>
+          <td>
+            Easily creates dynamic 3D background effects (such as waves,
+            particles, and birds) for websites. It uses WebGL.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SweetAlert2</strong></td>
+          <td>
+            <a href="https://sweetalert2.github.io/" target="_blank"
+              >https://sweetalert2.github.io/</a
+            >
+          </td>
+          <td>
+            Creates attractive, easy-to-use pop-up dialogs (alerts,
+            confirmations, and prompts) instead of the browser's default
+            dialogs.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Leaflet.js</strong></td>
+          <td>
+            <a href="https://leafletjs.com/" target="_blank"
+              >https://leafletjs.com/</a
+            >
+          </td>
+          <td>
+            An open-source mapping library for easily displaying and editing
+            maps (such as OpenStreetMap) in the browser.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Axios</strong></td>
+          <td>
+            <a href="https://axios-http.com/" target="_blank"
+              >https://axios-http.com/</a
+            >
+          </td>
+          <td>
+            A lightweight library for making HTTP requests (GET, POST, and
+            more). It simplifies working with APIs.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Chart.js</strong></td>
+          <td>
+            <a href="https://www.chartjs.org/" target="_blank"
+              >https://www.chartjs.org/</a
+            >
+          </td>
+          <td>
+            A simple, popular library for visualizing data with bar, line, pie,
+            and other charts.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>jQuery</strong></td>
+          <td>
+            <a href="https://jquery.com/" target="_blank"
+              >https://jquery.com/</a
+            >
+          </td>
+          <td>
+            A classic library that simplifies DOM manipulation, animations, and
+            AJAX requests. It is less common today, but useful for learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>5-day weather forecast</h1>
+    <p>The weather app below uses Chart.js to draw temperature charts.</p>
+    <label for="kaupunki">City:</label>
+    <input type="text" id="kaupunki" value="Helsinki" />
+    <!-- <button onclick="haeSaa()">Get weather</button> -->
+    <!-- ctrl + k ctrl + c -->
+    <button id="haeSaaPainike">Get weather</button>
+    <p id="saaYllatys" style="display: none">
+      &#9729; The cloud crew is checking the weather!
+    </p>
+
+    <label for="chartType">Chart type:</label>
+    <select id="chartType" onchange="paivitaKaavio()">
+      <option value="line">Line</option>
+      <option value="bar">Bar</option>
+      <option value="area">Area</option>
+    </select>
+    <div id="tempChart" style="width: 100%; height: 450px"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
+    <!-- Load the script from script.js. -->
+    <script src="script.js"></script>
+  </body>
+</html>
