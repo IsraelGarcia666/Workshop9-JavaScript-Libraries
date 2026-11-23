@@ -1,77 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Weather tip</title>
-  <style>
-    body {
-      display: grid;
-      place-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 1rem;
-      box-sizing: border-box;
-      background: #e9f4fc;
-      color: #162b44;
-      font-family: system-ui, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather tip</title>
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+        background: #e9f4fc;
+        color: #162b44;
+        font-family: system-ui, sans-serif;
+      }
 
-    main {
-      width: min(100%, 32rem);
-      box-sizing: border-box;
-      padding: clamp(1.5rem, 6vw, 3rem);
-      border: 1px solid #d5e5f2;
-      border-radius: 1.25rem;
-      background: #fff;
-    }
+      main {
+        width: min(100%, 32rem);
+        box-sizing: border-box;
+        padding: clamp(1.5rem, 6vw, 3rem);
+        border: 1px solid #d5e5f2;
+        border-radius: 1.25rem;
+        background: #fff;
+      }
 
-    h1 {
-      margin: 0 0 1.5rem;
-      font-size: clamp(2rem, 8vw, 3rem);
-    }
+      h1 {
+        margin: 0 0 1.5rem;
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
 
-    button {
-      padding: 0.75rem 1.25rem;
-      border: 0;
-      border-radius: 0.5rem;
-      background: #145b91;
-      color: #fff;
-      font: inherit;
-      font-weight: 650;
-      cursor: pointer;
-    }
+      button {
+        padding: 0.75rem 1.25rem;
+        border: 0;
+        border-radius: 0.5rem;
+        background: #145b91;
+        color: #fff;
+        font: inherit;
+        font-weight: 650;
+        cursor: pointer;
+      }
 
-    button:hover {
-      background: #0c426c;
-    }
+      button:hover {
+        background: #0c426c;
+      }
 
-    button:focus-visible {
-      outline: 3px solid #145b91;
-      outline-offset: 4px;
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Weather tip</h1>
-    <button id="vinkkiPainike" type="button">Show a tip</button>
-  </main>
+      button:focus-visible {
+        outline: 3px solid #145b91;
+        outline-offset: 4px;
+      }
 
-  <!-- Load SweetAlert2 before the page's JavaScript. -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-  <script>
-    const vinkkiPainike = document.getElementById("vinkkiPainike");
+      /* Change the page background according to the selected weather. */
 
-    vinkkiPainike.addEventListener("click", () => {
-      Swal.fire({
-        title: "A tip from the cloud crew",
-        text: "If the forecast predicts rain, remember to bring an umbrella!",
-        icon: "info",
-        confirmButtonText: "Got it!",
-        confirmButtonColor: "#145b91"
+      body[data-weather="sunny"] {
+        background: linear-gradient(135deg, #4da8e8, #87ceeb, #d5efff);
+      }
+
+      body[data-weather="rainy"] {
+        background: linear-gradient(135deg, #a7bfdb, #5e7fa5);
+      }
+
+      body[data-weather="snowy"] {
+        background: linear-gradient(135deg, #f2f9ff, #b8d4e8);
+      }
+
+      body[data-weather="windy"] {
+        background: linear-gradient(135deg, #d6eadd, #91b7ae);
+      }
+
+      /* 3D weather animation background */
+      #weather-3d {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      /* Keep the Weather Advisor above the animation */
+      main {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Keep the animation canvas responsive */
+      #weather-3d canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Return link for the Weather Advisor */
+      .back-link {
+        display: block;
+        margin-top: 24px;
+        color: #145b91;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .back-link:hover,
+      .back-link:focus-visible {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Interactive 3D weather animations using Three.js -->
+    <div id="weather-3d" aria-hidden="true"></div>
+
+    <main>
+      <h1>🌤️ Weather Advisor</h1>
+
+      <label for="weatherCondition">Choose the weather:</label>
+
+      <select id="weatherCondition">
+        <option value="sunny">☀️ Sunny</option>
+        <option value="rainy">🌧️ Rainy</option>
+        <option value="snowy">❄️ Snowy</option>
+        <option value="windy">🌬️ Windy</option>
+      </select>
+
+      <button id="vinkkiPainike" type="button">Get advice</button>
+      <a class="back-link" href="index.html"> ← Back to Workshop 9 </a>
+    </main>
+
+    <!-- Load SweetAlert2 before the page's JavaScript. -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+      const vinkkiPainike = document.getElementById("vinkkiPainike");
+
+      // Weather advice based on the user's selection.
+      const weatherTips = {
+        sunny: {
+          title: "Enjoy the sunshine! ☀️",
+          text: "Perfect weather for cycling! Don't forget your sunscreen.",
+          icon: "success",
+        },
+        rainy: {
+          title: "Rain is coming! 🌧️",
+          text: "Grab your umbrella and waterproof jacket!",
+          icon: "info",
+        },
+        snowy: {
+          title: "Winter is here! ❄️",
+          text: "Be careful! Roads and sidewalks might be slippery.",
+          icon: "warning",
+        },
+        windy: {
+          title: "Hold on to your hat! 🌬️",
+          text: "Strong winds can make outdoor activities challenging.",
+          icon: "warning",
+        },
+      };
+
+      // Display advice according to the selected condition.
+      vinkkiPainike.addEventListener("click", () => {
+        const condition = document.getElementById("weatherCondition").value;
+        const tip = weatherTips[condition];
+
+        Swal.fire({
+          title: tip.title,
+          text: tip.text,
+          icon: tip.icon,
+          confirmButtonText: "Got it!",
+          confirmButtonColor: "#145b91",
+        });
       });
-    });
-  </script>
-</body>
+
+      // Update the background when the user changes the weather.
+      const weatherCondition = document.getElementById("weatherCondition");
+
+      function updateWeatherTheme() {
+        document.body.dataset.weather = weatherCondition.value;
+      }
+
+      weatherCondition.addEventListener("change", updateWeatherTheme);
+
+      // Apply the initial theme when the page loads.
+      updateWeatherTheme();
+    </script>
+
+    <!-- Three.js creates the animated 3D weather scenes. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="weather-effects.js"></script>
+  </body>
 </html>

@@ -77,11 +77,46 @@
         color: #168aad;
         font-weight: bold;
       }
+
+      /* Navigation between my JavaScript library examples */
+      .workshop-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0 30px;
+      }
+
+      .workshop-nav a {
+        padding: 12px 18px;
+        border-radius: 8px;
+        background: #145b91;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .workshop-nav a:hover,
+      .workshop-nav a:focus-visible {
+        background: #168aad;
+      }
     </style>
   </head>
 
   <body>
     <h1>Workshop 9: JavaScript libraries</h1>
+
+    <!-- Navigation between my Workshop 9 applications -->
+    <nav class="workshop-nav" aria-label="Workshop applications">
+      <a href="index.html">🌤️ Weather Dashboard</a>
+
+      <a href="WS09_Jokeri_Koodikissan_Saaennuste_ENG.html">
+        🐱 Cat's Forecast
+      </a>
+
+      <a href="WS09_SweetAlert2_Saavinkki_ENG.html"> 🌦️ 3D Weather Advisor </a>
+    </nav>
+
     <p>
       External libraries make it easy to add many kinds of functionality to
       JavaScript applications. There are thousands of libraries, and their
