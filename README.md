@@ -11,12 +11,19 @@ I started with the teacher's examples and decided to expand them with additional
 
 The project includes three small applications.
 
+## Live Demo
+
+I published the workshop using GitHub Pages so the examples can be opened and tested directly in a browser, including on mobile devices.
+
+**Website:** https://israelgarcia666.github.io/Workshop9-JavaScript-Libraries/
+
+The main page contains links to the other two applications. An internet connection is required for the weather data and externally hosted libraries. Some 3D animations require a browser with WebGL support.
+
 ## 1. Weather Dashboard
 
 **Files:** `index.html`, `script.js`
 
 **Libraries and APIs:**
-
 - Axios
 - Apache ECharts
 - jQuery
@@ -25,7 +32,6 @@ The project includes three small applications.
 The application retrieves five-day weather forecasts for different cities and displays temperature information using interactive charts.
 
 **My modifications:**
-
 - Replaced OpenWeatherMap with Open-Meteo, which does not require an API key for noncommercial use.
 - Replaced Chart.js with Apache ECharts because I wanted a nicer visual presentation and more interactive charts.
 - Added Line, Bar, and Area chart options.
@@ -37,7 +43,6 @@ The application retrieves five-day weather forecasts for different cities and di
 **File:** `WS09_Jokeri_Koodikissan_Saaennuste_ENG.html`
 
 **Libraries:**
-
 - Baffle.js
 - Vanta.js
 - Three.js (used by Vanta.js)
@@ -45,7 +50,6 @@ The application retrieves five-day weather forecasts for different cities and di
 This application displays funny weather forecasts using animated scrambled text.
 
 **My modifications:**
-
 - Added random forecast selection without repeating the previous message.
 - Added an animated 3D cloud background using Vanta.js.
 - Created a moonlit scene with moving clouds using CSS animations.
@@ -56,26 +60,23 @@ This application displays funny weather forecasts using animated scrambled text.
 **Files:** `WS09_SweetAlert2_Saavinkki_ENG.html`, `weather-effects.js`
 
 **Libraries:**
-
 - SweetAlert2
 - Three.js
 
 The application allows users to select a weather condition and receive advice through a customized popup.
 
 **My modifications:**
-
 - Added four weather conditions: Sunny, Rainy, Snowy, and Windy.
 - Created a different 3D animation for each condition.
 - Added animated clouds, rain particles, falling snow, and wind effects.
 - Added dynamic background colors depending on the selected condition.
 - Used JavaScript objects to organize the advice messages.
 
-_The Weather Advisor conditions are selected manually and are not connected to live weather forecasts._
+*The Weather Advisor conditions are selected manually and are not connected to live weather forecasts.*
 
 ## What I Learned
 
 During this workshop, I practiced:
-
 - Importing and using external JavaScript libraries.
 - Working with public REST APIs and JSON data.
 - Using Axios for HTTP requests.
@@ -88,11 +89,23 @@ During this workshop, I practiced:
 
 ## Running the Project
 
-Open `index.html` using VS Code Live Server.
+Open `index.html` using VS Code Live Server, or use the GitHub Pages link above.
 
 The main page contains links to the other two applications.
 
 An internet connection is required for the weather API and externally loaded JavaScript libraries.
+
+## Mobile Testing
+
+I published the site in part to test how the applications behave on mobile devices. The checks below are for testing; they do not mean every device has already been verified.
+
+- [ ] Open the GitHub Pages site on a phone.
+- [ ] Check that the weather chart fits the screen and all three chart types work.
+- [ ] Check navigation between the three applications.
+- [ ] Test the cat forecast text animation and background.
+- [ ] Test all four Weather Advisor conditions and their SweetAlert2 popups.
+- [ ] Check that text and controls remain readable and usable without horizontal scrolling.
+- [ ] Check animation performance and behavior when reduced motion is preferred.
 
 ## Credits
 
