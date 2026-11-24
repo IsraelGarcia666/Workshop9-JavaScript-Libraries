@@ -24,6 +24,7 @@ The main page contains links to the other two applications. An internet connecti
 **Files:** `index.html`, `script.js`
 
 **Libraries and APIs:**
+
 - Axios
 - Apache ECharts
 - jQuery
@@ -32,6 +33,7 @@ The main page contains links to the other two applications. An internet connecti
 The application retrieves five-day weather forecasts for different cities and displays temperature information using interactive charts.
 
 **My modifications:**
+
 - Replaced OpenWeatherMap with Open-Meteo, which does not require an API key for noncommercial use.
 - Replaced Chart.js with Apache ECharts because I wanted a nicer visual presentation and more interactive charts.
 - Added Line, Bar, and Area chart options.
@@ -43,6 +45,7 @@ The application retrieves five-day weather forecasts for different cities and di
 **File:** `WS09_Jokeri_Koodikissan_Saaennuste_ENG.html`
 
 **Libraries:**
+
 - Baffle.js
 - Vanta.js
 - Three.js (used by Vanta.js)
@@ -50,6 +53,7 @@ The application retrieves five-day weather forecasts for different cities and di
 This application displays funny weather forecasts using animated scrambled text.
 
 **My modifications:**
+
 - Added random forecast selection without repeating the previous message.
 - Added an animated 3D cloud background using Vanta.js.
 - Created a moonlit scene with moving clouds using CSS animations.
@@ -60,23 +64,26 @@ This application displays funny weather forecasts using animated scrambled text.
 **Files:** `WS09_SweetAlert2_Saavinkki_ENG.html`, `weather-effects.js`
 
 **Libraries:**
+
 - SweetAlert2
 - Three.js
 
 The application allows users to select a weather condition and receive advice through a customized popup.
 
 **My modifications:**
+
 - Added four weather conditions: Sunny, Rainy, Snowy, and Windy.
 - Created a different 3D animation for each condition.
 - Added animated clouds, rain particles, falling snow, and wind effects.
 - Added dynamic background colors depending on the selected condition.
 - Used JavaScript objects to organize the advice messages.
 
-*The Weather Advisor conditions are selected manually and are not connected to live weather forecasts.*
+_The Weather Advisor conditions are selected manually and are not connected to live weather forecasts._
 
 ## What I Learned
 
 During this workshop, I practiced:
+
 - Importing and using external JavaScript libraries.
 - Working with public REST APIs and JSON data.
 - Using Axios for HTTP requests.
@@ -97,15 +104,20 @@ An internet connection is required for the weather API and externally loaded Jav
 
 ## Mobile Testing
 
-I published the site in part to test how the applications behave on mobile devices. The checks below are for testing; they do not mean every device has already been verified.
+The project was published using GitHub Pages to test its functionality and responsiveness on desktop and mobile devices.
 
-- [ ] Open the GitHub Pages site on a phone.
-- [ ] Check that the weather chart fits the screen and all three chart types work.
-- [ ] Check navigation between the three applications.
-- [ ] Test the cat forecast text animation and background.
-- [ ] Test all four Weather Advisor conditions and their SweetAlert2 popups.
-- [ ] Check that text and controls remain readable and usable without horizontal scrolling.
-- [ ] Check animation performance and behavior when reduced motion is preferred.
+- [x] Weather dashboard and interactive charts.
+- [x] City search and weather data retrieval.
+- [x] Baffle.js text animation.
+- [x] Vanta.js animated cloud background.
+- [x] Three.js weather animations.
+- [x] SweetAlert2 popups.
+- [x] Navigation between all three applications.
+- [x] Mobile layout and readability.
+
+During mobile testing, I noticed that the sun and clouds in the Sunny scene were not visible on narrow screens. I fixed this by dynamically adjusting the position, scale, and movement of the 3D objects according to the screen width.
+
+All three applications were successfully tested on desktop and mobile devices.
 
 ## Credits
 
