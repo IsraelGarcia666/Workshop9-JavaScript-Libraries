@@ -92,6 +92,24 @@ function createCloud(x, y, z) {
 const cloud1 = createCloud(8, 2, -3);
 const cloud2 = createCloud(-8, -2.5, -4);
 
+/* Adjust the sun and clouds for desktop and mobile screens. */
+function layoutSunnyScene() {
+  const mobile = window.innerWidth <= 600;
+
+  // On mobile, move the sun above the Weather Advisor card.
+  sun.position.set(mobile ? -1.3 : -8, mobile ? 5 : 3.5, -2);
+  sun.scale.setScalar(mobile ? 0.7 : 1);
+
+  // Position the clouds within the phone's visible area.
+  cloud1.position.set(mobile ? 1.5 : 8, mobile ? 4 : 2, -3);
+  cloud1.scale.setScalar(mobile ? 0.55 : 1);
+
+  cloud2.position.set(mobile ? -1.4 : -8, mobile ? 2.8 : -2.5, -4);
+  cloud2.scale.setScalar(mobile ? 0.5 : 1);
+}
+
+layoutSunnyScene();
+
 /* Rainy weather scene with dark clouds and animated rain. */
 
 const rainyScene = new THREE.Group();
@@ -277,8 +295,14 @@ function animate() {
   if (!reducedMotion.matches && !document.hidden) {
     time += 0.008;
 
-    cloud1.position.x = 8 + Math.sin(time) * 0.8;
-    cloud2.position.x = -8 + Math.sin(time * 0.7) * 0.7;
+    const mobile = window.innerWidth <= 600;
+
+    // Use shorter movements on narrow screens.
+    cloud1.position.x =
+      (mobile ? 1.5 : 8) + Math.sin(time) * (mobile ? 0.25 : 0.8);
+
+    cloud2.position.x =
+      (mobile ? -1.4 : -8) + Math.sin(time * 0.7) * (mobile ? 0.25 : 0.7);
 
     sun.rotation.y += 0.002;
 
@@ -352,4 +376,5 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
 
   renderer.setSize(window.innerWidth, window.innerHeight);
+  layoutSunnyScene();
 });
